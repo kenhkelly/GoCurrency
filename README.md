@@ -54,6 +54,7 @@ SGD     | 1.421
 THB     | 36.131
 TRY     | 3.025
 ZAR     | 13.658
+```
 
 ```
 $ ./gocurrency BRL,EUR,GBP
@@ -63,6 +64,7 @@ Symbol  | Rate
 BRL     | 4.017
 EUR     | 0.897
 GBP     | 0.654
+```
 
 ```
 $ ./gocurrency -base=JPY BRL,EUR,GBP
