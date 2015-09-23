@@ -14,13 +14,14 @@ import (
 )
 
 const (
-	API = "http://api.fixer.io/latest"
+	API = "http://api.fixer.io/"
 )
 
 var (
 	val   	string
 	base  	string
 	convert float64
+	date    string
 )
 
 func help() {
@@ -38,6 +39,7 @@ func init() {
 
 	flag.StringVar(&base, "base", "USD", "The base currency to quote a currency against (default USD)")
 	flag.Float64Var(&convert, "convert", 1, "Amount of currency to convert (default 1)")
+	flag.StringVar(&date, "date", "", "Historical date to show (default today)")
 	flag.Parse()
 
 	if len(base) == 0 {
@@ -63,7 +65,11 @@ func sendRequest() {
 	}
 	params := v.Encode()
 
-	resp, err := http.Get(API + "?" + params)
+	if len(date) == 0 {
+		date = "latest"
+	}
+
+	resp, err := http.Get(API + date + "?" + params)
 	if err != nil {
 		fmt.Println("Failed to get data", err)
 		os.Exit(3)

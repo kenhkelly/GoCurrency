@@ -105,12 +105,27 @@ Base currency: BRL, Date: 2015-09-23
 
 ```
 
+```
+$ ./gocurrency -date=2014-01-01 BRL
+
+Base currency: USD, Date: 2013-12-31
+
+| ------------|------------- |
+| Symbol      | Rate         |
+| ------------|------------- |
+| BRL         | 2.362        |
+| ------------|------------- |
+
+```
+
 ### Changelog
 
 Version | Change
 --------|----------
+[v1.2]  | Resolves #1: Add ability to change date seeing historical data
 [v1.1]  | Resolves #2: Add ability to convert currency
 [v1.0]  | Initial version, providing the currency rates
 
+[v1.2]: https://github.com/kenhkelly/GoCurrency/tree/v1.2
 [v1.1]: https://github.com/kenhkelly/GoCurrency/tree/v1.1
 [v1.0]: https://github.com/kenhkelly/GoCurrency/tree/v1.0
