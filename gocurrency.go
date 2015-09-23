@@ -18,8 +18,9 @@ const (
 )
 
 var (
-	val   string
-	base  string
+	val   	string
+	base  	string
+	convert float64
 )
 
 func help() {
@@ -36,9 +37,16 @@ func init() {
 	flag.Usage = help
 
 	flag.StringVar(&base, "base", "USD", "The base currency to quote a currency against (default USD)")
+	flag.Float64Var(&convert, "convert", 1, "Amount of currency to convert (default 1)")
 	flag.Parse()
 
-	if base == "" {
+	if len(base) == 0 {
+		fmt.Println("Base must be set")
+		exitHelp(3)
+	}
+
+	if convert < 1 {
+		fmt.Println("Convert must be 1 or greater")
 		exitHelp(3)
 	}
 
@@ -80,6 +88,10 @@ func sortDataKeys(m map[string]float64) []string {
 	return keys
 }
 
+func convertCurrency(r float64, c float64) float64 {
+	return r * c
+}
+
 type DataType struct {
 	Base  string
 	Date  string
@@ -95,14 +107,32 @@ func handleResponse(r io.ReadCloser) {
 		os.Exit(3)
 	}
 
-	fmt.Printf("Base currency: %s, Date: %s\n", data.Base, data.Date)
+	fmt.Printf("\nBase currency: %s, Date: %s\n\n", data.Base, data.Date)
 
-	fmt.Printf("%-8s| %-8s\n", "Symbol", "Rate")
-	fmt.Printf("%-8s|-%-8.3s\n", "--------", "--------")
+	if convert > 1 {
+		fmt.Printf("| %-12s|-%-12s|-%-12s |\n", "------------", "------------", "------------")
+		fmt.Printf("| %-12s| %-12s| %-12s |\n", "Symbol", "Rate", "Converted")
+		fmt.Printf("| %-12s|-%-12s|-%-12s |\n", "------------", "------------", "------------")
+	} else {
+		fmt.Printf("| %-12s|-%-12s |\n", "------------", "------------")
+		fmt.Printf("| %-12s| %-12s |\n", "Symbol", "Rate")
+		fmt.Printf("| %-12s|-%-12s |\n", "------------", "------------")
+	}
+
 
 	keys := sortDataKeys(data.Rates)
 	for _, k := range keys {
-		fmt.Printf("%-8s| %-8.3f\n", k, data.Rates[k])
+		if convert > 1 {
+			fmt.Printf("| %-12s| %-12.3f| %-12.3f |\n", k, data.Rates[k], convertCurrency(data.Rates[k], convert))
+		} else {
+			fmt.Printf("| %-12s| %-12.3f |\n", k, data.Rates[k])
+		}
+	}
+
+	if convert > 1 {
+		fmt.Printf("| %-12s|-%-12s|-%-12s |\n", "------------", "------------", "------------")
+	} else {
+		fmt.Printf("| %-12s|-%-12s |\n", "------------", "------------")
 	}
 }
 
