@@ -14,6 +14,7 @@ GoCurrency is used to quickly check the conversion rates
 
 - -base=USD  The base currency to quote a currency against
 - -convert=1 Amount of currency to convert
+- -date=""   Historical date to show
 - -help
 - symbol     The symbol(s) to show, comma separate. If left empty, will show all
 
