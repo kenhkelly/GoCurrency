@@ -80,4 +80,4 @@ Version | Change
 --------|----------
 [v1.0]  | Initial version, providing the currency rates
 
-[v1.0]: https://github.com/kenhkelly/GoCurrency/tree/v1.2
+[v1.0]: https://github.com/kenhkelly/GoCurrency/tree/v1.0
